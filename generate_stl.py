@@ -29,6 +29,17 @@ doc = App.ActiveDocument
 sheet = doc.Spreadsheet002
 
 ## Create release file dirs
+## If a previous Release dir exists, ask before removing it
+if os.path.exists("Release"):
+    try:
+        answer = input("'Release' directory already exists. Delete it and regenerate? [y/N]: ")
+    except EOFError:
+        answer = ""
+    if answer.strip().lower() not in ("y", "yes"):
+        print("Aborted, 'Release' directory left unchanged.")
+        sys.exit(1)
+    shutil.rmtree("Release")
+    print("Removed existing 'Release' directory.")
 os.mkdir("Release")
 os.mkdir("Release/small")
 os.mkdir("Release/normal")
